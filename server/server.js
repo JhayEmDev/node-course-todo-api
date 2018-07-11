@@ -34,14 +34,13 @@ app.get('/todos', async (req, res) => {
 });
 
 app.get('/todos/:id', async (req, res) => {
+  let err;
   const id = req.params.id;
   if (!ObjectID.isValid(id)) {
     err = `Invalid ID`;
     res.status(404).send({ err });
     return;
   }
-
-  let err;
   const doc = await Todo.findById(id)
     .catch((e) => {
       err = e;
