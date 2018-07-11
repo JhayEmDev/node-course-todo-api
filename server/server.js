@@ -97,7 +97,6 @@ app.patch('/todos/:id', async (req, res) => {
     body.completedAt = null;
   }
 
-  console.log(JSON.stringify(body, undefined, 2));
   const todo = await Todo.findByIdAndUpdate(id, { $set: body }, { new: true })
     .catch((e) => res.status(400).send({ err: e }));
 
