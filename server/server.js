@@ -64,6 +64,25 @@ app.get('/todos/:id', async (req, res) => {
   res.send(req.params);
 });
 
+app.delete('/todos/:id', async (req, res) => {
+  let err;
+  const id = req.params.id;
+  if (!ObjectID.isValid(id)) {
+    err = `Invalid ID`;
+    return res.status(404).send({ err });
+  }
+  const doc = await Todo.findByIdAndRemove(id).catch((err) => {
+    res.status(400).send({ err });
+    res.end();
+  });
+  if (doc) {
+    return res.status(200).send({ todo: doc });
+  } else {
+    err = `Todo could not be found`;
+    return res.status(404).send({ err });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Started server on port ${port}`);
 });
