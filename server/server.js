@@ -9,7 +9,6 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post('/todos', async (req, res) => {
-  console.log(req.body);
   const todo = new Todo({
     text: req.body.text
   });
@@ -19,7 +18,6 @@ app.post('/todos', async (req, res) => {
     doc = await todo.save();
     res.send(doc);
   } catch (e) {
-    console.log('Error saving todo from post man');
     res.status(400).send(e);
   }
 });
@@ -27,3 +25,5 @@ app.post('/todos', async (req, res) => {
 app.listen(3000, () => {
   console.log(`Started server on port 3000`);
 });
+
+module.exports = {app};
